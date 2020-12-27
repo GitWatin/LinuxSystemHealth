@@ -11,6 +11,11 @@
     <img src="https://img.shields.io/github/v/release/GitWatin/LinuxSystemHealth" alt="Version">
   </a>
 
+  <a href="https://www.paypal.me/valentindenis">
+    <img src="https://img.shields.io/badge/Donate-PayPal-green.svg" alt="Donate">
+  </a>
+
+
 <p align="center">
   A simple script to quickly monitor your linux system
 </p>

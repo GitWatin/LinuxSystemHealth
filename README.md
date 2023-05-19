@@ -39,7 +39,29 @@ you can also use crontab to scechule the script to run every time the system boo
   1 - crontab -e
   2 - add the following line to the end of the file : @reboot /bin/bash /path/to/linuxsystemhealth.sh
 ```
- 
+# OUTPUT :
+ ```
+█=======================================================================
+█    - Hostname....................: BROLY                          
+█    - System......................: Kali GNU/Linux                            
+█    - /Share......................: /share not found             
+█    - /...........................: 18G / 192G       
+█    - IP..........................: 192.168.1.103                                
+█    ===================================================================
+█    - CPU usage...................: 16.22%                       
+█    - CPU Cores...................: 4                          
+█    - Load........................: 0.94 - 0.73 - 0.75           
+█    - Memory used.................: 4894 MB / 7369 MB        
+█    - Swap in use.................: 550MB MB / 28686MB MB      
+█    ===================================================================
+█    - SSH.........................: inactive                        
+█    - Samba.......................: inactive                      
+█    - Chronyd (NTP)...............: inactive                        
+█    - NTP Synchronized............: inactive                             
+█    - SNMP........................: inactive                       
+█    - FTP.........................: inactive                        
+█=======================================================================
+```  
 # NOTE :
 The script includes support for CentOS, Debian, and Debian-based distributions like Ubuntu and Kali. It requires the "chronyd" package for CentOS.
   

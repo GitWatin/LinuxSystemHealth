@@ -52,7 +52,7 @@ you can also use crontab to scechule the script to run every time the system boo
 █    - CPU Cores...................: 4                          
 █    - Load........................: 0.94 - 0.73 - 0.75           
 █    - Memory used.................: 4894 MB / 7369 MB        
-█    - Swap in use.................: 550MB MB / 28686MB MB      
+█    - Swap in use.................: 550MB / 28686MB MB      
 █    ===================================================================
 █    - SSH.........................: inactive                        
 █    - Samba.......................: inactive                      

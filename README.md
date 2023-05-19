@@ -1,3 +1,4 @@
+![header image](https://github.com/RIDWANE-EL-FILALI/LinuxSystemHealth/blob/fix_bugs/images/Untitled%20design.png)
 <h1 align="center">
   🚀 Linux System Health 🖥️
 </h1>
@@ -14,14 +15,9 @@
   <a href="https://www.paypal.me/valentindenis">
     <img src="https://img.shields.io/badge/Donate-PayPal-green.svg" alt="Donate">
   </a>
-
-
-<p align="center">
-  A simple script to quickly monitor your linux system
-</p>
-</p>
-
 ---
+# INTRODUCTRION :
+
 
 
 

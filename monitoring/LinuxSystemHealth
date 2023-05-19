@@ -30,8 +30,8 @@ SLASH=" / "
 MEMORY_TOTAL=$(free -m | awk 'NR==2 {print $2 " MB"}')
 
 # swap memory
-SWAP_USE=$(free -m | awk '/^Swap/ {print $3 "MB"}')
-SWAP_TOTAL=$(free -m | awk '/^Swap/ {print $2 "MB"}')
+SWAP_USE=$(free -m | awk '/^Swap/ {print $3}')
+SWAP_TOTAL=$(free -m | awk '/^Swap/ {print $2}')
 
 ## Disk Information
 USED_DISK=$(df -h / | awk 'NR==2 {print $3}')

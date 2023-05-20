@@ -1,0 +1,127 @@
+#! /bin/bash
+
+#################################################################
+#
+# Title : LinuxSystemHealth
+#
+# Description : Display system information at logon
+#
+# Author : Valentin Denis
+#
+# Creation date : 08-10-2019
+#
+# Last modified : 27-12-2020
+#
+# Version : 2.0
+#
+# Licence : MIT
+#
+################################################################
+
+### Required packages
+## Centos : chronyd
+
+
+# Basic info
+HOSTNAME=`uname -n`
+SLASH=" / "
+
+## RAM Information
+MEMORY_TOTAL=$(free -m | awk 'NR==2 {print $2 " MB"}')
+
+# swap memory
+SWAP_USE=$(free -m | awk '/^Swap/ {print $3}')
+SWAP_TOTAL=$(free -m | awk '/^Swap/ {print $2}')
+
+## Disk Information
+USED_DISK=$(df -h / | awk 'NR==2 {print $3}')
+AVAILABLE_DISK=$(df -h / | awk 'NR==2 {print $2}')
+
+
+# For / share if exist
+if [ -d "/wikijs" ];then
+    SHARE_USE=$(df -Ph /wikijs | grep /dev | awk '{print $3}')$SLASH
+    SHARE_TOTAL=$(df -Ph /wikijs | grep /dev | awk '{print $2}')
+else
+    SHARE_USE=$(echo "/share not found")
+fi
+
+### Different variable for Centos/Debian/Ubuntu
+
+if [ -f "/etc/redhat-release" ];then
+    # For CentOS
+
+    #Memory information 
+    MEMORY_USE=$(free -m | awk '/^Mem/ {print $3 " MB"}')
+    SYSTEM=$(cat /etc/redhat-release | awk -F 'release' '{print $1}')
+    IP=$(ifconfig wlan0 | awk '/inet / {split($2, a, ":"); print a[2]}')
+
+elif [ -f "/etc/os-release" ];then
+    # For Debian and all debian based distributions {ubuntu, kali, ....}
+    #Memory information 
+    MEMORY_USE=$(free -m | awk 'NR==2 {print $3 " MB"}')
+    SYSTEM=$(cat /etc/os-release | grep -w "NAME" | cut -d= -f2 | tr -d '"')
+    IP=$(ip addr show wlan0 | awk '/inet / {split($2, a, "/"); print a[1]}')
+    #Memory information 
+ #   MEMORY_USE=`free -t -m | grep  buffers/cache: | awk '{print $3" MB";}'`
+else
+    #For Another
+    SYSTEM=$(echo "Sorry your system isn't listed you may be using another distribution")
+fi
+
+## LOAD Informations
+#LOAD 1 Minute
+LOAD1=`cat /proc/loadavg | awk {'print $1'}`
+#LOAD 5 Minutes
+LOAD2=`cat /proc/loadavg | awk {'print $2'}`
+#LOAD 15 Minutes
+LOAD3=`cat /proc/loadavg | awk {'print $3'}`
+
+## CPU Informations
+CPU_PERCENT=$(mpstat | awk '/all/ {print 100-$NF}' | awk '{printf "%.2f%%", $0}')
+CPU_CORE=$(nproc)
+
+## Check SSH Service
+SSH_STATUS=`systemctl is-active sshd`
+
+#### Check Services
+
+## Check SNMP Service
+SNMP_STATUS=`systemctl is-active snmpd`
+
+## Check FTP Service
+FTP_STATUS=`systemctl is-active vsftpd`
+
+## Check SAMBA Service
+SAMBA_STATUS=`systemctl is-active smbd`
+
+## Check NTP Service
+NTP_STATUS=`systemctl is-active chronyd`
+NTP_SYNC_TEMP=$(timedatectl |grep 'NTP synchronized:')
+NTP_SYNC=${NTP_SYNC_TEMP:18}
+
+
+
+echo "
+█=======================================================================
+█    - Hostname....................: $HOSTNAME                          
+█    - System......................: $SYSTEM                            
+█    - /Share......................: $SHARE_USE$SHARE_TOTAL             
+█    - /...........................: $USED_DISK / $AVAILABLE_DISK       
+█    - IP..........................: $IP                                
+█    ===================================================================
+█    - CPU usage...................: $CPU_PERCENT                       
+█    - CPU Cores...................: $CPU_CORE                          
+█    - Load........................: $LOAD1 - $LOAD2 - $LOAD3           
+█    - Memory used.................: $MEMORY_USE / $MEMORY_TOTAL        
+█    - Swap in use.................: $SWAP_USE MB / $SWAP_TOTAL MB      
+█    ===================================================================
+█    - SSH.........................: $SSH_STATUS                        
+█    - Samba.......................: $SAMBA_STATUS                      
+█    - Chronyd (NTP)...............: $NTP_STATUS                        
+█    - NTP Synchronized............: $NTP_STATUS                             
+█    - SNMP........................: $SNMP_STATUS                       
+█    - FTP.........................: $FTP_STATUS                        
+█=======================================================================
+"
+
